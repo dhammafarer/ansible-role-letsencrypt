@@ -1,0 +1,45 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    acme_email: contact@palekiwi.com
+    domain_name: klaasje.palekiwi.com
+
+  tasks:
+    - name: Install nginx.
+      ansible.builtin.dnf:
+        name: nginx
+        state: present
+
+    - name: "Include palekiwi.letsencrypt"
+      ansible.builtin.include_role:
+        name: "palekiwi.letsencrypt"
+
+    - name: Create a test file in acme-challenge.
+      ansible.builtin.copy:
+        dest: /var/www/.well-known/acme-challenge/test.txt
+        content: "testing"
+        owner: root
+        group: root
+        mode: "0644"
+
+    - name: Restart nginx.
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+
+    - name: Updates hosts.
+      ansible.builtin.lineinfile:
+        path: /etc/hosts
+        line: "127.0.0.1 klaasje.palekiwi.com"
+        state: present
+
+    - name: Test uri.
+      ansible.builtin.uri:
+        url: "http://klaasje.palekiwi.com/.well-known/acme-challenge/test.txt"
+        return_content: true
+        status_code: 200
+      register: response
+      failed_when: "'testing' not in response.content"

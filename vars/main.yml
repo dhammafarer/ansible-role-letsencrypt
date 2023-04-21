@@ -1,0 +1,14 @@
+---
+# vars file for letsencrypt
+acme_challenge_dir: /var/www
+
+acme_challenge_type: http-01
+acme_directory: https://acme-v02.api.letsencrypt.org/directory
+acme_version: 2
+
+letsencrypt_dir: /etc/letsencrypt
+
+letsencrypt_keys_dir: "{{ letsencrypt_dir }}/keys"
+letsencrypt_csrs_dir: "{{ letsencrypt_dir }}/csrs"
+letsencrypt_certs_dir: "{{ letsencrypt_dir }}/certs"
+letsencrypt_account_key: "{{ letsencrypt_dir }}/account/account.key"

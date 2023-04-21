@@ -1,0 +1,4 @@
+---
+# defaults file for letsencrypt
+domain_name: your-domain
+acme_email: certificate-reminders@your-domain

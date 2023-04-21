@@ -1,0 +1,13 @@
+  server {
+    listen          80;
+    server_name     {{ domain_name }} www.{{ domain_name }};
+
+    location / {
+	    root /usr/share/nginx/html;
+    }
+
+    location /.well-known/acme-challenge {
+      root {{ acme_challenge_dir }};
+      try_files $uri =404;
+    }
+  }

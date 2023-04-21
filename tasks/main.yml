@@ -1,0 +1,4 @@
+---
+# tasks file for letsencrypt
+- name: Import tasks that issue certificates.
+  ansible.builtin.import_tasks: issue.yml
